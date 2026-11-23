@@ -1,0 +1,82 @@
+{
+  "extractor_key": "ctclip",
+  "status": "completed",
+  "not_run_reason": null,
+  "is_control": false,
+  "model_name": "CT-CLIP 3D CT-ViT Image Encoder + Visual Latent Projection (CT-CLIP_v2.pt)",
+  "weights_source": {
+    "github_repo": "https://github.com/ibrahimethemhamamci/CT-CLIP.git",
+    "hf_dataset_repo": "ibrahimhamamci/CT-RATE",
+    "filename": "models/CT-CLIP-Related/CT-CLIP_v2.pt",
+    "github_commit_sha": "a2a155c601987820433c01db69b64d701d3d229d",
+    "repo_commit_sha": "546640db5d4674f6e6b36d40d2cfcd57c8b39e21",
+    "file_sha256": "75eeb75a49c557a0e6eb7be72a53166e9123661518cc72c7aa1705ee7942c8c9",
+    "file_size_bytes": 1769618697,
+    "strict_key_check_passed": true,
+    "num_loaded_keys": 158
+  },
+  "preprocessing": {
+    "upstream_script": "ibrahimethemhamamci/CT-CLIP/scripts/data_inference_nii.py (CTReportDatasetinfer.nii_img_to_tensor)",
+    "lung_masking": "None (full-chest CT HU volume matching CT-CLIP pretraining)",
+    "hu_clip": [
+      -1000.0,
+      1000.0
+    ],
+    "hu_scaling": "img_data / 1000.0 -> [-1.0, +1.0] float32",
+    "target_spacing_mm_z_x_y": [
+      1.5,
+      0.75,
+      0.75
+    ],
+    "resampling": "F.interpolate(..., mode='trilinear', align_corners=False) from (z_spacing, row_spacing, col_spacing) to (1.5, 0.75, 0.75) mm",
+    "crop_pad_target_hwd": [
+      480,
+      480,
+      240
+    ],
+    "pad_value": -1.0,
+    "final_tensor_shape_b_c_d_h_w": [
+      1,
+      1,
+      240,
+      480,
+      480
+    ],
+    "pooling_and_projection": "Exact CTCLIP.forward: CTViT(..., return_encoded_tokens=True) -> mean(dim=1) -> flatten(294912) -> to_visual_latent(294912->512) -> L2 normalize",
+    "batch_size": 1,
+    "precision": "cuda_amp_fp16_autocast"
+  },
+  "embedding_size": 512,
+  "column_prefix": "ctclip_emb_",
+  "output_csv": "/kaggle/working/cached_dicom_features_ctclip.csv",
+  "patients_target_count": 175,
+  "patients_processed_count": 175,
+  "patients_newly_processed_this_run": 175,
+  "patients_skipped_count": 0,
+  "skipped_patients": [],
+  "timing_test_one_patient_sec": 1.113,
+  "estimated_total_time_min": 3.25,
+  "runtime_seconds": 494.26,
+  "runtime_minutes": 8.24,
+  "peak_gpu_memory_mb": 2711.54,
+  "peak_gpu_memory_reserved_mb": 4266.0,
+  "validation_checks": {
+    "file_size_mb": 0.8132,
+    "row_count": 175,
+    "column_count": 513,
+    "nan_cell_count": 0,
+    "nan_columns_count": 0,
+    "all_nan_columns_count": 0,
+    "inf_cell_count": 0,
+    "constant_columns_count": 0,
+    "constant_columns_sample": []
+  },
+  "timestamp_utc": "2026-11-22T17:47:10.058388+00:00",
+  "environment": {
+    "torch_version": "2.11.0+cu130",
+    "torchvision_version": "0.26.0+cu130",
+    "device": "cuda",
+    "gpu_name": "Tesla T4",
+    "gpu_total_mem_gb": 14.56
+  }
+}

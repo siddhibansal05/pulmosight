@@ -1,0 +1,61 @@
+{
+  "extractor_key": "med3d",
+  "status": "completed",
+  "not_run_reason": null,
+  "is_control": false,
+  "model_name": "MedicalNet (Med3D) 3D ResNet-18 (resnet_18_23dataset)",
+  "weights_source": {
+    "repo_id": "TencentMedicalNet/MedicalNet-Resnet18",
+    "filename": "resnet_18_23dataset.pth",
+    "architecture_ref": "Tencent/MedicalNet/models/resnet.py (resnet18, shortcut_type='A')",
+    "repo_commit_sha": "758fe285bc8ab565eb4f9f965810f1d1a3f79491",
+    "file_sha256": "61224f9317fcce873366deb3703183e92cc47325b726b69691b33536244e10f4",
+    "file_size_bytes": 131992196,
+    "strict_key_check_passed": true,
+    "model_state_dict_key_count": 102,
+    "checkpoint_key_count": 102,
+    "num_loaded_keys": 102,
+    "ignored_num_batches_tracked_diff": 0
+  },
+  "preprocessing": {
+    "lung_masking": "segment_lungs_hu per slice; outside lung set to -1000.0 HU",
+    "volume_resampling": "3D trilinear interpolation (align_corners=False) to fixed (D=56, H=448, W=448) per Tencent/MedicalNet setting.py",
+    "intensity_normalization": "Med3D paper (arXiv:1904.00625): clip lung foreground to [0.5th, 99.5th] percentiles, z-score standardize by lung foreground mean/std, set outside-lung background deterministically to 0.0",
+    "pooling": "3D Global Average Pooling (AdaptiveAvgPool3d((1, 1, 1))) after layer4 (before conv_seg head)",
+    "batch_size": 1,
+    "precision": "float32"
+  },
+  "embedding_size": 512,
+  "column_prefix": "med3d_emb_",
+  "output_csv": "/kaggle/working/cached_dicom_features_med3d.csv",
+  "patients_target_count": 175,
+  "patients_processed_count": 175,
+  "patients_newly_processed_this_run": 175,
+  "patients_skipped_count": 0,
+  "skipped_patients": [],
+  "timing_test_one_patient_sec": 7.574,
+  "estimated_total_time_min": 22.09,
+  "runtime_seconds": 2717.97,
+  "runtime_minutes": 45.3,
+  "peak_gpu_memory_mb": 860.25,
+  "peak_gpu_memory_reserved_mb": 874.0,
+  "validation_checks": {
+    "file_size_mb": 0.7698,
+    "row_count": 175,
+    "column_count": 513,
+    "nan_cell_count": 0,
+    "nan_columns_count": 0,
+    "all_nan_columns_count": 0,
+    "inf_cell_count": 0,
+    "constant_columns_count": 0,
+    "constant_columns_sample": []
+  },
+  "timestamp_utc": "2026-11-22T16:58:45.387502+00:00",
+  "environment": {
+    "torch_version": "2.11.0+cu130",
+    "torchvision_version": "0.26.0+cu130",
+    "device": "cuda",
+    "gpu_name": "Tesla T4",
+    "gpu_total_mem_gb": 14.56
+  }
+}

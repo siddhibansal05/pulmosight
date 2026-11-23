@@ -1,0 +1,110 @@
+{
+  "rules_version": "1.0.0",
+  "mandatory_notice": "Automated interpretation, decision support only. Verify clinically.",
+  "clinical_review_note": "These automated threshold rules are approximations based on percent-predicted values and a fixed FEV1/FVC cutoff when GLI lower-limit-of-normal (LLN) and z-scores are not used. They must be reviewed and approved by a qualified clinician before any real clinical use.",
+  "citations": {
+    "pft_2005": "Pellegrino R, Viegi G, Brusasco V, et al. Interpretative strategies for lung function tests. Eur Respir J. 2005;26(5):948-968.",
+    "pft_2022": "Stanojevic S, Kaminsky DA, Miller MR, et al. ERS/ATS technical standard on interpretive strategies for routine lung function tests. Eur Respir J. 2022;60(1):2101499.",
+    "ipf_2018": "Raghu G, Remy-Jardin M, Myers JL, et al. Diagnosis of Idiopathic Pulmonary Fibrosis. An Official ATS/ERS/JRS/ALAT Clinical Practice Guideline. Am J Respir Crit Care Med. 2018;198(5):e44-e68.",
+    "ipf_2022": "Raghu G, Remy-Jardin M, Richeldi L, et al. Idiopathic Pulmonary Fibrosis (an Update) and Progressive Pulmonary Fibrosis in Adults: An Official ATS/ERS/JRS/ALAT Clinical Practice Guideline. Am J Respir Crit Care Med. 2022;205(9):e18-e47."
+  },
+  "physiology": {
+    "volume_thresholds": {
+      "tlc_reduced_below_pp": 80.0,
+      "fvc_reduced_below_pp": 80.0,
+      "fev1_reduced_below_pp": 80.0,
+      "tlc_elevated_above_pp": 120.0,
+      "borderline_margin_pp": 5.0
+    },
+    "ratio_thresholds": {
+      "fev1fvc_preserved_at_or_above": 0.70,
+      "fev1fvc_borderline_margin": 0.03
+    },
+    "restrictive_requires_tlc_when_present": true,
+    "tlco_severity_bands": [
+      {
+        "key": "normal",
+        "label": "normal (preserved gas transfer)",
+        "min_pp": 80.0,
+        "max_pp": null,
+        "citation": "ATS/ERS 2005 interpretive strategies approximation (>= 80% predicted)"
+      },
+      {
+        "key": "mild",
+        "label": "mildly reduced gas transfer",
+        "min_pp": 60.0,
+        "max_pp": 80.0,
+        "citation": "ATS/ERS 2005 interpretive strategies (60% to < 80% predicted)"
+      },
+      {
+        "key": "moderate",
+        "label": "moderately reduced gas transfer",
+        "min_pp": 40.0,
+        "max_pp": 60.0,
+        "citation": "ATS/ERS 2005 interpretive strategies (40% to < 60% predicted)"
+      },
+      {
+        "key": "severe",
+        "label": "severely reduced gas transfer",
+        "min_pp": null,
+        "max_pp": 40.0,
+        "citation": "ATS/ERS 2005 interpretive strategies (< 40% predicted)"
+      }
+    ],
+    "tlco_borderline_margin_pp": 3.0,
+    "extreme_value_bounds": {
+      "age": { "warn_below": 25.0, "warn_above": 90.0 },
+      "fev1fvc_abs": { "warn_below": 0.35, "warn_above": 1.00 },
+      "fev1_pp": { "warn_below": 25.0, "warn_above": 150.0 },
+      "fvc_pp": { "warn_below": 25.0, "warn_above": 150.0 },
+      "tlc_pp": { "warn_below": 30.0, "warn_above": 150.0 },
+      "tlco_pp": { "warn_below": 25.0, "warn_above": 150.0 }
+    }
+  },
+  "model_result": {
+    "borderline_probability_margin": 0.05,
+    "reliability_bin_edges": [0.0, 0.05, 0.10, 0.20, 0.35, 0.50, 1.0]
+  },
+  "drivers": {
+    "max_positive_drivers": 3,
+    "max_negative_drivers": 2,
+    "age_driver_rank_cutoff": 3,
+    "min_abs_shap": 0.03
+  },
+  "caution": {
+    "highlighted_misclassification_groups": ["i-NSIP", "u-ILD", "CTD"],
+    "lung_function_overlap_statement": "Lung function alone cannot separate IPF from other fibrosing interstitial lung diseases."
+  },
+  "clinician_considerations": {
+    "guideline_reference": "ATS/ERS/JRS/ALAT IPF Clinical Practice Guidelines (2018; 2022 update)",
+    "items": [
+      "HRCT pattern review (evaluating UIP, probable UIP, indeterminate, or alternative patterns)",
+      "Exposure and autoimmune history (environmental/occupational exposures, medications, and connective tissue disease evaluation)",
+      "Multidisciplinary discussion (MDD) integrating clinical, radiologic, and laboratory findings"
+    ]
+  },
+  "llm_rephrase": {
+    "env_flag": "ENABLE_LLM_INTERPRETATION_REPHRASE",
+    "default_enabled": false,
+    "forbidden_diagnosis_and_treatment_patterns": [
+      "\\bdiagnos(e|ed|ing)\\s+(with\\s+)?ipf\\b",
+      "\\bpatient\\s+has\\s+ipf\\b",
+      "\\bconfirms?\\s+(an?\\s+)?ipf\\s+diagnosis\\b",
+      "\\bdefinitive\\s+diagnosis\\b",
+      "\\brules?\\s+(in|out)\\s+ipf\\b",
+      "\\bprescrib(e|ed|ing)\\b",
+      "\\bpirfenidone\\b",
+      "\\bnintedanib\\b",
+      "\\bantifibrotic(s)?\\b",
+      "\\b(start|initiate|begin|recommend)\\s+(therapy|treatment|medication|drug|steroid|corticosteroid|immunosuppress)\\b",
+      "\\bcorticosteroid(s)?\\b",
+      "\\bprednisone\\b",
+      "\\bimmunosuppress(ive|ion|ant)\\b",
+      "\\boxygen\\s+therapy\\b",
+      "\\blung\\s+transplant(ation)?\\b",
+      "\\bdosage\\b",
+      "\\bmg\\s*(/|per)\\s*(day|kg)\\b",
+      "\\btreat\\s+(this\\s+)?patient\\b"
+    ]
+  }
+}

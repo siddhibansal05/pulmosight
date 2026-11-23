@@ -1,0 +1,34 @@
+# Python bytecode, caches & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.venv*/
+venv/
+env/
+.pytest_cache/
+
+# Node & Frontend build artifacts
+node_modules/
+dist/
+frontend/node_modules/
+frontend/dist/
+.vite/
+
+# Credentials & secrets
+kaggle.json
+.kaggle/
+.env.local
+
+# Raw DICOM / NIfTI medical imaging volumes & archives
+backend/data/osic/dicom/
+*.dcm
+*.dicom
+*.nii
+*.nii.gz
+*.zip
+*.mp4
+
+# OS & IDE files
+.DS_Store
+Thumbs.db

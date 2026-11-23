@@ -1,0 +1,46 @@
+{
+  "extractor_key": "resnet50_imagenet_control",
+  "status": "not run",
+  "not_run_reason": "Disabled by user toggle RUN_IMAGENET_RESNET50_CONTROL = False",
+  "is_control": true,
+  "model_name": "EXTRA CONTROL: ImageNet 2D ResNet-50 (torchvision ResNet50_Weights.DEFAULT)",
+  "weights_source": {
+    "source": "torchvision.models.resnet50",
+    "weights_enum": "ResNet50_Weights.IMAGENET1K_V2",
+    "weights_url": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth",
+    "is_extra_control": true
+  },
+  "preprocessing": {
+    "role": "EXTRA CONTROL (isolates ResNet-50 architecture vs. RadImageNet medical pretraining)",
+    "lung_masking": "segment_lungs_hu per slice; outside lung set to -1000.0 HU (matches imaging_progression.py)",
+    "hu_window": "[-1000, 0] HU linearly scaled to [0, 1]",
+    "resize": "uint8 -> PIL 224x224 BILINEAR -> float32 / 255.0 (matches imaging_progression.py)",
+    "normalization": "3-channel grayscale repeat + ImageNet mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]",
+    "pooling": "AdaptiveAvgPool2d((1, 1)) per slice -> float64 mean-pool over all axial slices",
+    "slice_batch_size": 64,
+    "precision": "float32"
+  },
+  "embedding_size": 2048,
+  "column_prefix": "resnet50_imagenet_control_emb_",
+  "output_csv": "/kaggle/working/cached_dicom_features_resnet50_imagenet_control.csv",
+  "patients_target_count": 175,
+  "patients_processed_count": 0,
+  "patients_newly_processed_this_run": 0,
+  "patients_skipped_count": 0,
+  "skipped_patients": [],
+  "timing_test_one_patient_sec": null,
+  "estimated_total_time_min": null,
+  "runtime_seconds": 0.0,
+  "runtime_minutes": 0.0,
+  "peak_gpu_memory_mb": 2711.54,
+  "peak_gpu_memory_reserved_mb": 4266.0,
+  "validation_checks": null,
+  "timestamp_utc": "2026-11-22T17:47:10.425215+00:00",
+  "environment": {
+    "torch_version": "2.11.0+cu130",
+    "torchvision_version": "0.26.0+cu130",
+    "device": "cuda",
+    "gpu_name": "Tesla T4",
+    "gpu_total_mem_gb": 14.56
+  }
+}

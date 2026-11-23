@@ -1,0 +1,70 @@
+{
+  "extractor_key": "radimagenet",
+  "status": "completed",
+  "not_run_reason": null,
+  "is_control": false,
+  "model_name": "RadImageNet 2D ResNet-50 (Lab-Rasool/RadImageNet ResNet50.pt)",
+  "weights_source": {
+    "repo_id": "Lab-Rasool/RadImageNet",
+    "filename": "ResNet50.pt",
+    "upstream_reference": "BMEII-AI/RadImageNet pytorch_example.ipynb (Backbone = nn.Sequential(*children[:9]))",
+    "repo_commit_sha": "14460ee4c1276f6925611a63aa9a54a05d39eae0",
+    "file_sha256": "08629f7e7bd3e29b8ee9522ca3f65ce4d010a7ddf74f0ea3c7e3f3d0bbab0734",
+    "file_size_bytes": 94345733,
+    "strict_key_check_passed": true,
+    "num_loaded_keys": 318
+  },
+  "preprocessing": {
+    "lung_masking": "segment_lungs_hu per slice; outside lung set to -1000.0 HU (matches imaging_progression.py)",
+    "hu_window": "[-1000, 0] HU linearly scaled to [0, 1]",
+    "resize": "uint8 -> PIL 224x224 BILINEAR -> float32 / 255.0 (matches imaging_progression.py)",
+    "normalization": "3-channel grayscale repeat + ImageNet mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]",
+    "pooling": "AdaptiveAvgPool2d((1, 1)) per slice -> float64 mean-pool over all axial slices",
+    "slice_batch_size": 64,
+    "precision": "float32"
+  },
+  "embedding_size": 2048,
+  "column_prefix": "radimagenet_emb_",
+  "output_csv": "/kaggle/working/cached_dicom_features_radimagenet.csv",
+  "patients_target_count": 175,
+  "patients_processed_count": 175,
+  "patients_newly_processed_this_run": 175,
+  "patients_skipped_count": 0,
+  "skipped_patients": [],
+  "timing_test_one_patient_sec": 2.059,
+  "estimated_total_time_min": 6.01,
+  "runtime_seconds": 2359.19,
+  "runtime_minutes": 39.32,
+  "peak_gpu_memory_mb": 763.66,
+  "peak_gpu_memory_reserved_mb": 1476.0,
+  "validation_checks": {
+    "file_size_mb": 2.2408,
+    "row_count": 175,
+    "column_count": 2049,
+    "nan_cell_count": 0,
+    "nan_columns_count": 0,
+    "all_nan_columns_count": 0,
+    "inf_cell_count": 0,
+    "constant_columns_count": 375,
+    "constant_columns_sample": [
+      "radimagenet_emb_1",
+      "radimagenet_emb_10",
+      "radimagenet_emb_16",
+      "radimagenet_emb_20",
+      "radimagenet_emb_24",
+      "radimagenet_emb_28",
+      "radimagenet_emb_30",
+      "radimagenet_emb_34",
+      "radimagenet_emb_38",
+      "radimagenet_emb_44"
+    ]
+  },
+  "timestamp_utc": "2026-11-22T17:38:07.651003+00:00",
+  "environment": {
+    "torch_version": "2.11.0+cu130",
+    "torchvision_version": "0.26.0+cu130",
+    "device": "cuda",
+    "gpu_name": "Tesla T4",
+    "gpu_total_mem_gb": 14.56
+  }
+}
